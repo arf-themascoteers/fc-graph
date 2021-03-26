@@ -49,3 +49,8 @@ class OptimizerAdam :
 
     def post_update_params ( self ):
         self.iterations += 1
+
+    def optimise(self, fc):
+        self.pre_update_params()
+        self.update_params_fc(fc)
+        self.post_update_params()
