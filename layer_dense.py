@@ -12,6 +12,7 @@ class LayerDense(Layer):
     def forward(self, inputs, y_true=None):
         self.inputs = inputs
         self.output = np.dot(inputs, self.weights) + self.biases
+        return self.output
 
     def backward(self, dvalues, y_true=None):
         self.dweights = np.dot(self.inputs.T, dvalues)

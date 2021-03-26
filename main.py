@@ -1,10 +1,8 @@
 import nnfs
 from nnfs.datasets import spiral_data
-import numpy as np
 
 from activation_relu import ActivationReLU
 from fc import FullyConnected
-from output_layer import OutputLayer
 from layer_dense import LayerDense
 from optimizer_adam import OptimizerAdam
 

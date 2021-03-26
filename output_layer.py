@@ -15,7 +15,7 @@ class OutputLayer(Layer):
         self.activation.forward(inputs)
         self.output = self.activation.output
         self.calculated_loss = self.loss.calculate(self.output, y_true)
-        return self.calculated_loss
+        return self.output
 
     def backward ( self , dvalues, y_true=None ):
         samples = len (dvalues)

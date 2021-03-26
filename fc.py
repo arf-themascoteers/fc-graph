@@ -20,8 +20,7 @@ class FullyConnected:
     def forward(self, input, output):
         layer = self.input_layer
         while layer is not None:
-            layer.forward(input, output)
-            input = layer.output
+            input = layer.forward(input, output)
             layer = layer.next_layer
 
         predictions = np.argmax(self.output_layer.output, axis=1)

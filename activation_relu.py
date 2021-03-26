@@ -10,6 +10,7 @@ class ActivationReLU(Layer):
     def forward(self, inputs, y_true=None):
         self.inputs = inputs
         self.output = np.maximum(0, inputs)
+        return self.output
 
     def backward(self, dvalues, y_true=None):
         self.dinputs = dvalues.copy()
