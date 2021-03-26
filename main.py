@@ -11,17 +11,16 @@ nnfs.init()
 
 X, y = spiral_data( samples = 100 , classes = 3 )
 dense1 = LayerDense( 2 , 64 )
-activation1 = ActivationReLU()
+activation1 = ActivationReLU(64)
 dense2 = LayerDense( 64 , 3 )
 
-loss_activation = ActivationSoftmaxLossCategoricalCrossEntropy()
+loss_activation = ActivationSoftmaxLossCategoricalCrossEntropy(3,1)
 optimizer = OptimizerAdam( learning_rate = 0.05 , decay = 5e-7 )
 for epoch in range ( 10001 ):
     dense1.forward(X)
     activation1.forward(dense1.output)
     dense2.forward(activation1.output)
-    loss_activation.y_true = y
-    loss = loss_activation.forward(dense2.output)
+    loss = loss_activation.forward(dense2.output,y)
     predictions = np.argmax(loss_activation.output, axis = 1 )
     if len (y.shape) == 2 :
         y = np.argmax(y, axis = 1 )
@@ -33,7 +32,7 @@ for epoch in range ( 10001 ):
         f'lr: {optimizer.current_learning_rate} ' )
 
     # Backward pass
-    loss_activation.backward(loss_activation.output)
+    loss_activation.backward(loss_activation.output,y)
     dense2.backward(loss_activation.dinputs)
     activation1.backward(dense2.dinputs)
     dense1.backward(activation1.dinputs)

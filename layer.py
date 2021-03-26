@@ -1,16 +1,15 @@
 from abc import ABC, abstractmethod
 
+
 class Layer:
-    def __init__(self, count_neuron, count_input):
-        self.count_neuron = count_neuron
-        self.count_input = count_input
+    def __init__(self, n_inputs, n_neurons):
+        self.n_inputs = n_inputs
+        self.n_neurons = n_neurons
 
     @abstractmethod
-    def forward(self, input, y_true=None):
+    def forward(self, inputs, y_true=None):
         pass
 
     @abstractmethod
     def backward(self, dvalues, y_true=None):
         pass
-
-
