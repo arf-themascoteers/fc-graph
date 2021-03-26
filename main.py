@@ -20,7 +20,8 @@ for epoch in range ( 10001 ):
     dense1.forward(X)
     activation1.forward(dense1.output)
     dense2.forward(activation1.output)
-    loss = loss_activation.forward(dense2.output, y)
+    loss_activation.y_true = y
+    loss = loss_activation.forward(dense2.output)
     predictions = np.argmax(loss_activation.output, axis = 1 )
     if len (y.shape) == 2 :
         y = np.argmax(y, axis = 1 )
@@ -32,7 +33,7 @@ for epoch in range ( 10001 ):
         f'lr: {optimizer.current_learning_rate} ' )
 
     # Backward pass
-    loss_activation.backward(loss_activation.output, y)
+    loss_activation.backward(loss_activation.output)
     dense2.backward(loss_activation.dinputs)
     activation1.backward(dense2.dinputs)
     dense1.backward(activation1.dinputs)
