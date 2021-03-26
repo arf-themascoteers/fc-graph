@@ -4,16 +4,18 @@ from loss_cce import LossCategoricalCrossentropy
 import numpy as np
 
 
-class ActivationSoftmaxLossCategoricalCrossEntropy(Layer):
-    def __init__(self, n_inputs, n_neurons):
-        super().__init__(n_inputs, n_neurons)
+class OutputLayer(Layer):
+    def __init__(self, n_inputs, prev_layer):
+        super().__init__(n_inputs, 1, prev_layer)
         self.activation = ActivationSoftmax()
         self.loss = LossCategoricalCrossentropy()
+        self.calculated_loss = 0
 
     def forward ( self , inputs, y_true=None ):
         self.activation.forward(inputs)
         self.output = self.activation.output
-        return self.loss.calculate(self.output, y_true)
+        self.calculated_loss = self.loss.calculate(self.output, y_true)
+        return self.calculated_loss
 
     def backward ( self , dvalues, y_true=None ):
         samples = len (dvalues)

@@ -1,5 +1,8 @@
 import numpy as np
 
+from layer_dense import LayerDense
+
+
 class OptimizerAdam :
     def __init__ ( self , learning_rate = 0.001 , decay = 0. , epsilon = 1e-7 , beta_1 = 0.9 , beta_2 = 0.999 ):
         self.learning_rate = learning_rate
@@ -13,6 +16,13 @@ class OptimizerAdam :
     def pre_update_params ( self ):
         if self.decay:
             self.current_learning_rate = self.learning_rate * ( 1. / ( 1. + self.decay * self.iterations))
+
+    def update_params_fc(self, fc):
+        layer = fc.input_layer
+        while layer is not None:
+            if isinstance(layer, LayerDense):
+                self.update_params(layer)
+            layer = layer.next_layer
 
     def update_params ( self , layer ):
         if not hasattr (layer, 'weight_cache' ):
