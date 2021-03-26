@@ -1,5 +1,8 @@
 import nnfs
 from nnfs.datasets import spiral_data
+import matplotlib.pyplot as plt
+import random
+import numpy as np
 
 from activation_relu import ActivationReLU
 from fc import FullyConnected
@@ -17,9 +20,21 @@ fc.add_layer(LayerDense( 64 , 3 ))
 optimizer = OptimizerAdam( learning_rate = 0.05 , decay = 5e-7 )
 fc.print_forward()
 for epoch in range ( 10001 ):
-    fc.forward(X,y)
-    fc.backward(fc.output_layer.output, y)
+    fc.forward_backward(X,y)
     # Update weights and biases
     optimizer.pre_update_params()
     optimizer.update_params_fc(fc)
     optimizer.post_update_params()
+    if not epoch % 100:
+        print(f'epoch: {epoch} , ' +
+        f'acc: {fc.accuracy:.3f} , ' +
+        f'loss: {fc.loss:.3f} , ' +
+        f'lr: {optimizer.current_learning_rate:.3f} ' )
+
+plt.scatter(X[:, 0 ], X[:, 1 ], c = y, s = 40 , cmap = 'brg', label = 'initial' )
+plt.show()
+
+y = np.argmax(fc.output_layer.output, axis = 1)
+
+plt.scatter(X[:, 0 ], X[:, 1 ], c = y, s = 40 , cmap = 'brg',label = 'predicted', alpha=0.3 )
+plt.show()
